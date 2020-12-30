@@ -72,3 +72,30 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+
+// * Comparing credentials:
+
+// - Geting input values when login button is click:
+
+btnLogin.addEventListener('click', function () {
+  // Check credentials:
+
+  // Reading input values:
+  const userId = inputLoginUsername.value;
+  const userPin = Number(inputLoginPin.value);
+
+  // Cycles through an arrays that contain the all account data objects.
+
+  accounts.forEach(function (acc, i) {
+    const checkPin = acc.pin === userPin ? true : false;
+
+    const checkUser = acc.username === userId ? true : false;
+
+    if (checkPin && checkUser) {
+      const accountNum = i; // show which account was acessed
+      console.log(accountNum);
+      labelWelcome.textContent = `Welcome, ${acc.owner}`;
+      containerApp.style.opacity = 100; // Display App
+    }
+  });
+});
