@@ -73,23 +73,15 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-// Calc accounts balance: Return an array that contains all accounts balance.
+// Calc accounts balance: Sum all array elements
 
-const calcAccountsBalance = function (accIndex) {
-  let balance = 0;
-  let arrMov = [];
-  accounts.forEach(function (acc, i) {
-    acc.movements.forEach(function (mov, i) {
-      balance += mov;
-    });
-
-    arrMov.push(balance);
+const calcAccountsBalance = function (arr) {
+  let current = 0;
+  arr.forEach(function (mov) {
+    current += mov;
   });
-
-  return arrMov[accIndex];
+  return current;
 };
-
-console.log(calcAccountsBalance(3)); //conta 4
 
 // Calculate Summary:
 
@@ -139,12 +131,12 @@ btnLogin.addEventListener('click', function () {
       // Using calc balance function + display balance
 
       const accIndex = i; // show which account was acessed
-      const currentBalance = calcAccountsBalance(accIndex);
-      console.log(accIndex, currentBalance);
+      const accMov = acc.movements;
+      const currentBalance = calcAccountsBalance(accMov);
       labelBalance.textContent = `€${currentBalance}`;
 
       // Using calc summary function + display balance:
-      const accMov = acc.movements;
+
       const accSumary = calcSummary(accMov); // [in,out]
       labelSumIn.textContent = accSumary[0];
       labelSumOut.textContent = accSumary[1];
