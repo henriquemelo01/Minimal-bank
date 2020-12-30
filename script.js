@@ -83,14 +83,12 @@ const calcAccountsBalance = function (arr) {
   return current;
 };
 
-// Calculate Summary:
+// Calculate Summary: Returns an array that contains [deposit,withdraw,interrest]
 
-// Display elements:
-// labelSumInterest; // how it works?
-
-const calcSummary = function (arr) {
+const calcSummary = function (arr, acc) {
   let deposit = 0;
   let withdraw = 0;
+  let interrest = 0;
   arr.forEach(function (value) {
     // identificando quais elementos são maiores que 0 (Deposito - in) e os menores do que 0 (Withdraw)
     if (value > 0) {
@@ -102,7 +100,10 @@ const calcSummary = function (arr) {
     }
   });
 
-  return [deposit, Math.abs(withdraw)];
+  // Calc Intrrest = in(or deposit) * interestRate/100 .
+  interrest = (deposit * acc.interestRate) / 100;
+
+  return [deposit, Math.abs(withdraw), interrest];
 };
 
 // * Comparing credentials:
@@ -137,11 +138,12 @@ btnLogin.addEventListener('click', function () {
 
       // Using calc summary function + display balance:
 
-      const accSumary = calcSummary(accMov); // [in,out]
-      labelSumIn.textContent = accSumary[0];
-      labelSumOut.textContent = accSumary[1];
+      const accSumary = calcSummary(accMov, acc); // [in,out,interrest]
+      labelSumIn.textContent = `€${accSumary[0]}`;
+      labelSumOut.textContent = `€${accSumary[1]}`;
+      labelSumInterest.textContent = `€${accSumary[2]}`;
     }
   });
 });
 
-containerApp.style.opacity = 100;
+// containerApp.style.opacity = 100;
