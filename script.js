@@ -89,6 +89,30 @@ const calcAccountsBalance = function (accIndex) {
   return arrMov[accIndex];
 };
 
+console.log(calcAccountsBalance(3)); //conta 4
+
+// Calculate Summary:
+
+// Display elements:
+// labelSumInterest; // how it works?
+
+const calcSummary = function (arr) {
+  let deposit = 0;
+  let withdraw = 0;
+  arr.forEach(function (value) {
+    // identificando quais elementos são maiores que 0 (Deposito - in) e os menores do que 0 (Withdraw)
+    if (value > 0) {
+      deposit += value;
+      console.log(`You Deposited: ${value}`);
+    } else {
+      withdraw += value;
+      console.log(`You withdraw: ${Math.abs(value)} `);
+    }
+  });
+
+  return [deposit, Math.abs(withdraw)];
+};
+
 // * Comparing credentials:
 
 // - Geting input values when login button is click:
@@ -109,7 +133,7 @@ btnLogin.addEventListener('click', function () {
 
     if (checkPin && checkUser) {
       // Displaying UI and Welcome msg
-      labelWelcome.textContent = `Welcome, ${acc.owner}`;
+      labelWelcome.textContent = `Welcome to Minimal Bank, ${acc.owner}`;
       containerApp.style.opacity = 100; // Display App
 
       // Using calc balance function + display balance
@@ -118,8 +142,14 @@ btnLogin.addEventListener('click', function () {
       const currentBalance = calcAccountsBalance(accIndex);
       console.log(accIndex, currentBalance);
       labelBalance.textContent = `€${currentBalance}`;
+
+      // Using calc summary function + display balance:
+      const accMov = acc.movements;
+      const accSumary = calcSummary(accMov); // [in,out]
+      labelSumIn.textContent = accSumary[0];
+      labelSumOut.textContent = accSumary[1];
     }
   });
 });
 
-//containerApp.style.opacity = 100;
+containerApp.style.opacity = 100;
