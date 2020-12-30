@@ -73,6 +73,22 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+// Calc accounts balance: Return an array that contains all accounts balance.
+
+const calcAccountsBalance = function (accIndex) {
+  let balance = 0;
+  let arrMov = [];
+  accounts.forEach(function (acc, i) {
+    acc.movements.forEach(function (mov, i) {
+      balance += mov;
+    });
+
+    arrMov.push(balance);
+  });
+
+  return arrMov[accIndex];
+};
+
 // * Comparing credentials:
 
 // - Geting input values when login button is click:
@@ -92,10 +108,18 @@ btnLogin.addEventListener('click', function () {
     const checkUser = acc.username === userId ? true : false;
 
     if (checkPin && checkUser) {
-      const accountNum = i; // show which account was acessed
-      console.log(accountNum);
+      // Displaying UI and Welcome msg
       labelWelcome.textContent = `Welcome, ${acc.owner}`;
       containerApp.style.opacity = 100; // Display App
+
+      // Using calc balance function + display balance
+
+      const accIndex = i; // show which account was acessed
+      const currentBalance = calcAccountsBalance(accIndex);
+      console.log(accIndex, currentBalance);
+      labelBalance.textContent = `€${currentBalance}`;
     }
   });
 });
+
+//containerApp.style.opacity = 100;
