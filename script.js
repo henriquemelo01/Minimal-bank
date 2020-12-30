@@ -147,3 +147,9 @@ btnLogin.addEventListener('click', function () {
 });
 
 // containerApp.style.opacity = 100;
+
+// Current Date:
+let date = new Date();
+let today = date.toLocaleDateString();
+let time = date.toLocaleTimeString();
+console.log(today, time);
