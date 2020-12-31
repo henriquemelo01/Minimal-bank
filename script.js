@@ -148,6 +148,12 @@ btnLogin.addEventListener('click', function () {
       const currentBalance = calcAccountsBalance(accMov);
       labelBalance.textContent = `€${currentBalance}`;
 
+      // Remove movements :
+      const movRows = document.querySelectorAll('.movements__row');
+      movRows.forEach(function (row) {
+        row.remove();
+      });
+
       // Using calc summary function + display balance:
 
       const accSumary = calcSummary(accMov, acc); // [in,out,interrest]
@@ -158,7 +164,8 @@ btnLogin.addEventListener('click', function () {
   });
 });
 
-containerApp.style.opacity = 100;
+// Display app:
+//containerApp.style.opacity = 100;
 
 // Display movements
 
@@ -180,12 +187,12 @@ function addNewMovRow(typeOfMov, value) {
     const newDepositDiv = document.createElement('div');
     newMovRow.appendChild(newDepositDiv).className =
       'movements__type movements__type--deposit';
-    newDepositDiv.textContent = '2 DEPOSIT'; // Quantidades de depositos executados no dia (Var)
+    newDepositDiv.textContent = '1 DEPOSIT'; // Quantidades de depositos executados no dia (Var)
   } else if (typeOfMov === 'withdraw') {
     const newWithDrawaltDiv = document.createElement('div');
     newMovRow.appendChild(newWithDrawaltDiv).className =
       'movements__type movements__type--withdrawal';
-    newWithDrawaltDiv.textContent = '2 WITHDRAWAL'; // Quantidades de depositos executados no dia (Var)
+    newWithDrawaltDiv.textContent = '1 WITHDRAWAL'; // Quantidades de depositos executados no dia (Var)
   }
 
   // Create div date
@@ -204,6 +211,22 @@ function addNewMovRow(typeOfMov, value) {
   }
 }
 
-//addNewMovRow('deposit');
-//addNewMovRow('withdraw');
-//addNewMovRow('withdraw');
+// First Test addNewMovRow function:
+
+//addNewMovRow('deposit',150);
+//addNewMovRow('withdraw',180);
+//addNewMovRow('withdraw',300);
+
+/*
+  1) Quando clicar no botão : Pegar valores da interface Transfer Money
+  
+  2) Conta que efetuou a transferencencia account.moviment.push(-valor); + Exibir a transferencia.
+
+  3) Identificar conta que será efetuada a transferencia
+
+  4) Conta que recebeu a transferência: 
+*/
+
+function transferMoney() {}
+
+// Transfer money functionality
