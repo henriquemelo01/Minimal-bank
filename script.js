@@ -73,6 +73,11 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+// Current Date:
+let date = new Date();
+let today = date.toLocaleDateString();
+let time = date.toLocaleTimeString();
+
 // Calc accounts balance: Sum all array elements
 
 const calcAccountsBalance = function (arr) {
@@ -127,6 +132,7 @@ btnLogin.addEventListener('click', function () {
     if (checkPin && checkUser) {
       // Displaying UI and Welcome msg
       labelWelcome.textContent = `Welcome to Minimal Bank, ${acc.owner}`;
+      labelDate.textContent = today;
       containerApp.style.opacity = 100; // Display App
 
       // Using calc balance function + display balance
@@ -146,10 +152,52 @@ btnLogin.addEventListener('click', function () {
   });
 });
 
-// containerApp.style.opacity = 100;
+containerApp.style.opacity = 100;
+labelDate.textContent = today;
 
-// Current Date:
-let date = new Date();
-let today = date.toLocaleDateString();
-let time = date.toLocaleTimeString();
-console.log(today, time);
+// Display movements
+
+/* 
+- How to create an DOM element? https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+- Create an DOM element running the array that contains movements (acc.movements).=
+- Where insert the elements? div movements -> div movements row -> movements__type--deposit or movements__type--withdrawal /
+movements__date / movements__value 
+*/
+
+function addNewMovRow() {
+  // Create a new mov row element
+  const newMovRow = document.createElement('div');
+  newMovRow.className = 'movements__row';
+  containerMovements.insertBefore(newMovRow, containerMovements.childNodes[0]);
+
+  // Create div deposit inside movement row:
+  const newDepositDiv = document.createElement('div');
+  newMovRow.appendChild(newDepositDiv).className =
+    'movements__type movements__type--deposit';
+  newDepositDiv.textContent = '2 DEPOSIT'; // Valor do deposito
+
+  // Create div date
+  const newDatetDiv = document.createElement('div');
+  newMovRow.appendChild(newDatetDiv).className = 'movements__date';
+  newDatetDiv.textContent = today;
+
+  // Create div value
+  const newValueDiv = document.createElement('div');
+  newMovRow.appendChild(newValueDiv).className = 'movements__value';
+  newValueDiv.textContent = `€150`;
+}
+
+addNewMovRow();
+
+/*
+
+var newItem = document.createElement("LI");       // Create a <li> node
+var textnode = document.createTextNode("Water");  // Create a text node
+newItem.appendChild(textnode);                    // Append the text to <li>
+
+var list = document.getElementById("myList");    // Get the <ul> element to insert a new node
+list.insertBefore(newItem, list.childNodes[0]);  // Insert <li> before the first child of <ul>
+
+  // Inserir antes de tudo
+  movRow.insertBefore(itemQueQueroInserir,movRow.childNodes[0] )
+*/
