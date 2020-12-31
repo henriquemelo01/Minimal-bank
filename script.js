@@ -92,14 +92,20 @@ const calcAccountsBalance = function (arr) {
 
 const calcSummary = function (arr, acc) {
   let deposit = 0;
+  let numDep = 0;
   let withdraw = 0;
+  let numWithdraw = 0;
   let interrest = 0;
   arr.forEach(function (value) {
     // identificando quais elementos são maiores que 0 (Deposito - in) e os menores do que 0 (Withdraw)
     if (value > 0) {
+      numDep++;
+      addNewMovRow('deposit', value);
       deposit += value;
       console.log(`You Deposited: ${value}`);
     } else {
+      numWithdraw++;
+      addNewMovRow('withdraw', value);
       withdraw += value;
       console.log(`You withdraw: ${Math.abs(value)} `);
     }
@@ -108,7 +114,7 @@ const calcSummary = function (arr, acc) {
   // Calc Intrrest = in(or deposit) * interestRate/100 .
   interrest = (deposit * acc.interestRate) / 100;
 
-  return [deposit, Math.abs(withdraw), interrest];
+  return [deposit, Math.abs(withdraw), interrest, numDep, numWithdraw];
 };
 
 // * Comparing credentials:
@@ -153,7 +159,6 @@ btnLogin.addEventListener('click', function () {
 });
 
 containerApp.style.opacity = 100;
-labelDate.textContent = today;
 
 // Display movements
 
@@ -164,17 +169,24 @@ labelDate.textContent = today;
 movements__date / movements__value 
 */
 
-function addNewMovRow() {
+function addNewMovRow(typeOfMov, value) {
   // Create a new mov row element
   const newMovRow = document.createElement('div');
   newMovRow.className = 'movements__row';
   containerMovements.insertBefore(newMovRow, containerMovements.childNodes[0]);
 
-  // Create div deposit inside movement row:
-  const newDepositDiv = document.createElement('div');
-  newMovRow.appendChild(newDepositDiv).className =
-    'movements__type movements__type--deposit';
-  newDepositDiv.textContent = '2 DEPOSIT'; // Valor do deposito
+  if (typeOfMov === 'deposit') {
+    // Create div deposit inside movement row:
+    const newDepositDiv = document.createElement('div');
+    newMovRow.appendChild(newDepositDiv).className =
+      'movements__type movements__type--deposit';
+    newDepositDiv.textContent = '2 DEPOSIT'; // Quantidades de depositos executados no dia (Var)
+  } else if (typeOfMov === 'withdraw') {
+    const newWithDrawaltDiv = document.createElement('div');
+    newMovRow.appendChild(newWithDrawaltDiv).className =
+      'movements__type movements__type--withdrawal';
+    newWithDrawaltDiv.textContent = '2 WITHDRAWAL'; // Quantidades de depositos executados no dia (Var)
+  }
 
   // Create div date
   const newDatetDiv = document.createElement('div');
@@ -184,20 +196,14 @@ function addNewMovRow() {
   // Create div value
   const newValueDiv = document.createElement('div');
   newMovRow.appendChild(newValueDiv).className = 'movements__value';
-  newValueDiv.textContent = `€150`;
+
+  if (typeOfMov === 'deposit') {
+    newValueDiv.textContent = `€${value}`; // variavel
+  } else if (typeOfMov === 'withdraw') {
+    newValueDiv.textContent = `- €${Math.abs(value)}`; // variavel
+  }
 }
 
-addNewMovRow();
-
-/*
-
-var newItem = document.createElement("LI");       // Create a <li> node
-var textnode = document.createTextNode("Water");  // Create a text node
-newItem.appendChild(textnode);                    // Append the text to <li>
-
-var list = document.getElementById("myList");    // Get the <ul> element to insert a new node
-list.insertBefore(newItem, list.childNodes[0]);  // Insert <li> before the first child of <ul>
-
-  // Inserir antes de tudo
-  movRow.insertBefore(itemQueQueroInserir,movRow.childNodes[0] )
-*/
+//addNewMovRow('deposit');
+//addNewMovRow('withdraw');
+//addNewMovRow('withdraw');
