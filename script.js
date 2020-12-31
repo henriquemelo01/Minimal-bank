@@ -120,7 +120,7 @@ const calcSummary = function (arr, acc) {
 // * Comparing credentials:
 
 // - Geting input values when login button is click:
-
+let currentAcc;
 btnLogin.addEventListener('click', function () {
   // Check credentials:
 
@@ -129,13 +129,12 @@ btnLogin.addEventListener('click', function () {
   const userPin = Number(inputLoginPin.value);
 
   // Cycles through an arrays that contain the all account data objects.
-
   accounts.forEach(function (acc, i) {
     const checkPin = acc.pin === userPin ? true : false;
-
     const checkUser = acc.username === userId ? true : false;
 
     if (checkPin && checkUser) {
+      currentAcc = acc;
       // Displaying UI and Welcome msg
       labelWelcome.textContent = `Welcome to Minimal Bank, ${acc.owner}`;
       labelDate.textContent = today;
@@ -165,7 +164,8 @@ btnLogin.addEventListener('click', function () {
 });
 
 // Display app:
-//containerApp.style.opacity = 100;
+
+containerApp.style.opacity = 100;
 
 // Display movements
 
@@ -218,15 +218,41 @@ function addNewMovRow(typeOfMov, value) {
 //addNewMovRow('withdraw',300);
 
 /*
-  1) Quando clicar no botão : Pegar valores da interface Transfer Money
-  
+
   2) Conta que efetuou a transferencencia account.moviment.push(-valor); + Exibir a transferencia.
 
-  3) Identificar conta que será efetuada a transferencia
 
-  4) Conta que recebeu a transferência: 
 */
 
-function transferMoney() {}
+btnTransfer.addEventListener('click', transferMoney);
+function transferMoney() {
+  // 1) Quando clicar no botão : Pegar valores da interface Transfer Money
+  //inputTransferTo inputTransferAmount
 
-// Transfer money functionality
+  // Reading input values:
+  const transferTo = inputTransferTo.value;
+  const transferAmount = Number(inputTransferAmount.value);
+  console.log(transferTo, transferAmount);
+
+  // Reset input box:
+  inputTransferTo.value = '';
+  inputTransferAmount.value = '';
+
+  //2) Identificar Conta que efetuou a transferencencia + account.moviment.push(-valor); + Exibir a transferencia.
+
+  // Add movement to account.movements + display movement
+  const acc = currentAcc.movements;
+  acc.push(-transferAmount);
+  addNewMovRow('withdraw', transferAmount);
+
+  // Calc new currentBalance + display it
+  const newBalance = calcAccountsBalance(acc);
+  labelBalance.textContent = `€${newBalance}`;
+
+  // 3) Conta que recebeu a transferência: Como identificar a const que foi feita a transferencia
+  const transferAcc = account1.movements;
+  transferAcc.push(transferAmount);
+  addNewMovRow('deposit', transferAmount);
+}
+
+// Será necessário criar uma função que identifica o objeto account através do nome de usuario "String" ***
