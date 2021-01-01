@@ -117,6 +117,8 @@ const calcSummary = function (arr, acc) {
   return [deposit, Math.abs(withdraw), interrest, numDep, numWithdraw];
 };
 
+('');
+
 // * Comparing credentials:
 
 // - Geting input values when login button is click:
@@ -164,7 +166,7 @@ btnLogin.addEventListener('click', function () {
 });
 
 // Display app:
-//containerApp.style.opacity = 100;
+// containerApp.style.opacity = 100;
 
 // Display movements
 
@@ -274,3 +276,31 @@ function locAccount(user) {
   });
   return transfAcc;
 }
+
+const loan = function () {
+  const loanAmount = Number(inputLoanAmount.value);
+
+  // Reset Input :
+  inputLoanAmount.value = '';
+
+  if (loanAmount > 0) {
+    // Deposit:
+    currentAcc.movements.push(loanAmount);
+
+    // ReCalc account Summary + Balance
+    const newSummary = calcSummary(currentAcc.movements, currentAcc); // [deposit,withdrawal,interest,numDeposit,numWithdrawal]
+    const newBalance = newSummary[0] - newSummary[1]; // balance = deposit - withdrawal
+
+    // Display new balance, in/out,interest
+    labelBalance.textContent = `€${newBalance}`;
+    labelSumIn.textContent = `€${newSummary[0]}`;
+    labelSumOut.textContent = `€${newSummary[1]}`;
+    labelSumInterest.textContent = `€${newSummary[2]}`;
+  }
+};
+
+// Implementing Loan Button functionality:
+btnLoan.addEventListener('click', function () {
+  // 3 seconds delay to simulate loan operation:
+  setTimeout(loan, 3000);
+});
