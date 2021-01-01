@@ -141,6 +141,8 @@ btnLogin.addEventListener('click', function () {
       labelWelcome.textContent = `Welcome to Minimal Bank, ${acc.owner}`;
       labelDate.textContent = today;
       containerApp.style.opacity = 100; // Display App
+      // Display Timeout
+      timeout();
 
       // Using calc balance function + display balance
 
@@ -304,3 +306,78 @@ btnLoan.addEventListener('click', function () {
   // 3 seconds delay to simulate loan operation:
   setTimeout(loan, 3000);
 });
+
+// Close account:
+
+/* Quando clicar no botão:
+- Checar credenciais da conta atual
+- Excluir a conta do array accounts
+Localizar conta neste array por meio da função indexOf, excluir usando .splice(indexOf,1);
+
+- Atualizar status da aplicação: apagar todos os elementos do container App  
+containerApp.style.opacity = 0;
+// mandar executar função que mostra o container + modificação na mesma tirando do evento do btnLogin e add condicional do else {
+  containerApp.style.opacity = 0 (HIDE UI) **;
+}
+
+*/
+
+btnClose.addEventListener('click', function () {
+  const closeUser = inputCloseUsername.value;
+  const closePin = Number(inputClosePin.value);
+
+  // Reset input:
+  inputCloseUsername.value = '';
+  inputClosePin.value = '';
+
+  // Checking credencials:
+  const isCurrentUser = currentAcc.username === closeUser ? true : false;
+  const isPinCorrect = currentAcc.pin === closePin ? true : false;
+
+  if (isCurrentUser && isPinCorrect) {
+    const indexAccElement = accounts.indexOf(currentAcc);
+
+    // Delete account from data (array -> accounts):
+    accounts.splice(indexAccElement, 1);
+
+    // Hide UI:
+    labelWelcome.textContent = 'Log in to get started';
+    containerApp.style.opacity = 0;
+  }
+});
+
+function timeout() {
+  const timeLogout = 1; // minutes
+  const now = date;
+  now.setMinutes(now.getMinutes() + timeLogout);
+
+  // Set the date we're counting down to
+  let countDownDate = new Date(now).getTime();
+
+  // Update the count down every 1 second
+  let x = setInterval(function () {
+    // Get today's date and time
+    let now = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    let distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result in the element
+    labelTimer.innerHTML = minutes + 'm ' + seconds + 's ';
+
+    // If the count down is finished, display an alert
+
+    if (distance < 0) {
+      clearInterval(x);
+      alert('Timeout');
+
+      // Hide UI:
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+  }, 1000);
+}
