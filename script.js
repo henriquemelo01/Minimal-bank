@@ -164,8 +164,7 @@ btnLogin.addEventListener('click', function () {
 });
 
 // Display app:
-
-containerApp.style.opacity = 100;
+//containerApp.style.opacity = 100;
 
 // Display movements
 
@@ -217,13 +216,6 @@ function addNewMovRow(typeOfMov, value) {
 //addNewMovRow('withdraw',180);
 //addNewMovRow('withdraw',300);
 
-/*
-
-  2) Conta que efetuou a transferencencia account.moviment.push(-valor); + Exibir a transferencia.
-
-
-*/
-
 btnTransfer.addEventListener('click', transferMoney);
 function transferMoney() {
   // 1) Quando clicar no botão : Pegar valores da interface Transfer Money
@@ -238,21 +230,47 @@ function transferMoney() {
   inputTransferTo.value = '';
   inputTransferAmount.value = '';
 
+  // Checking if account exist:
+  const transfer = locAccount(transferTo);
+  const hasAccount = transfer ? true : false;
+  console.log(hasAccount);
+
   //2) Identificar Conta que efetuou a transferencencia + account.moviment.push(-valor); + Exibir a transferencia.
+  if (
+    hasAccount &&
+    currentAcc.username !== transferTo &&
+    calcAccountsBalance(currentAcc.movements) > transferAmount
+  ) {
+    // Add movement to account.movements + display movement
+    const acc = currentAcc.movements;
+    acc.push(-transferAmount);
+    addNewMovRow('withdraw', transferAmount);
 
-  // Add movement to account.movements + display movement
-  const acc = currentAcc.movements;
-  acc.push(-transferAmount);
-  addNewMovRow('withdraw', transferAmount);
+    // Calc new currentBalance + display it
+    const newBalance = calcAccountsBalance(acc);
+    labelBalance.textContent = `€${newBalance}`;
 
-  // Calc new currentBalance + display it
-  const newBalance = calcAccountsBalance(acc);
-  labelBalance.textContent = `€${newBalance}`;
-
-  // 3) Conta que recebeu a transferência: Como identificar a const que foi feita a transferencia
-  const transferAcc = account1.movements;
-  transferAcc.push(transferAmount);
-  addNewMovRow('deposit', transferAmount);
+    // 3) Conta que recebeu a transferência: Como identificar a conta que foi feita a transferencia?
+    const transferAcc = transfer.movements;
+    transferAcc.push(transferAmount);
+  } else if (currentAcc.username === transferTo) {
+    alert('Operação invalida ');
+  } else if (calcAccountsBalance(currentAcc.movements) < transferAmount) {
+    alert('Não foi possivel completar a transferência: Saldo insuficiente');
+  } else if (!hasAccount) {
+    alert(
+      'Não foi possivel completar a transferência: Conta não cadastrada no sistema'
+    );
+  }
 }
 
-// Será necessário criar uma função que identifica o objeto account através do nome de usuario "String" ***
+// Criando uma função que identifica o objeto account através do nome de usuario "String" ***
+function locAccount(user) {
+  let transfAcc;
+  accounts.forEach(function (account) {
+    if (account.username === user) {
+      transfAcc = account;
+    }
+  });
+  return transfAcc;
+}
