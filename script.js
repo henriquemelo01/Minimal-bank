@@ -48,6 +48,7 @@ const account5 = {
 const accounts = [account1, account2, account3, account4, account5];
 
 // Elements
+const bankImg = document.querySelector('.bank');
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -102,12 +103,12 @@ const calcSummary = function (arr, acc) {
       numDep++;
       addNewMovRow('deposit', value);
       deposit += value;
-      console.log(`You Deposited: ${value}`);
+      // console.log(`You Deposited: ${value}`);
     } else {
       numWithdraw++;
       addNewMovRow('withdraw', value);
       withdraw += value;
-      console.log(`You withdraw: ${Math.abs(value)} `);
+      // console.log(`You withdraw: ${Math.abs(value)} `);
     }
   });
 
@@ -138,6 +139,7 @@ btnLogin.addEventListener('click', function () {
     if (checkPin && checkUser) {
       currentAcc = acc;
       // Displaying UI and Welcome msg
+      bankImg.classList.add('hidden');
       labelWelcome.textContent = `Welcome to Minimal Bank, ${acc.owner}`;
       labelDate.textContent = today;
       containerApp.style.opacity = 100; // Display App
@@ -168,7 +170,7 @@ btnLogin.addEventListener('click', function () {
 });
 
 // Display app:
-// containerApp.style.opacity = 100;
+//containerApp.style.opacity = 100;
 
 // Display movements
 
@@ -343,11 +345,12 @@ btnClose.addEventListener('click', function () {
     // Hide UI:
     labelWelcome.textContent = 'Log in to get started';
     containerApp.style.opacity = 0;
+    bankImg.classList.remove('hidden');
   }
 });
 
 function timeout() {
-  const timeLogout = 1; // minutes
+  const timeLogout = 2; // minutes
   const now = date;
   now.setMinutes(now.getMinutes() + timeLogout);
 
@@ -378,6 +381,67 @@ function timeout() {
       // Hide UI:
       labelWelcome.textContent = 'Log in to get started';
       containerApp.style.opacity = 0;
+      bankImg.classList.remove('hidden');
     }
   }, 1000);
+}
+
+// Sort:
+
+let seleciona = -1;
+const sort = function () {
+  //   Se eu clicar no sort uma vez seleciona todas as divs que correspondem aos deposits e inseri-las em movements:
+
+  // Algoritmo para permitir apenas dois estados possiveis no botao
+  seleciona++;
+  const option = seleciona % 2;
+
+  switch (option) {
+    case 0:
+      console.log('Case 0');
+      orderMovements();
+      break;
+    case 1:
+      console.log('Case 1');
+      resetMovements();
+      break;
+  }
+};
+
+btnSort.addEventListener('click', sort);
+
+function resetMovements() {
+  // Removing Elements
+  const movs = document.querySelectorAll('.movements__row');
+  movs.forEach(function (mov) {
+    containerMovements.removeChild(mov);
+  });
+
+  // Reset previus elements
+  calcSummary(currentAcc.movements, currentAcc);
+}
+
+function orderMovements() {
+  // Primeiro Click
+  const movs = document.querySelectorAll('.movements__row'); // contem todas as divs que representam os movements
+  console.log(movs.length);
+  // Percorrer as divs da ultima para primeira:
+  for (let i = movs.length - 1; i > 0; i--) {
+    const movDiv = movs[i];
+    // Seleciona o Elemento das transaões de cada div Mov Row
+    const transacoes = movDiv.childNodes[0];
+    const isDeposit = transacoes.textContent.includes('DEPOSIT');
+    //console.log(`MOV${i}: ${isDeposit}`);
+
+    // Se for deposito seleciona as divs:
+    if (isDeposit) {
+      // Seleciona a div correspondente
+      const depositDiv = movs[i];
+      // Inserir antes de tudo:
+      containerMovements.insertBefore(
+        depositDiv,
+        containerMovements.childNodes[0]
+      );
+    }
+  }
 }
