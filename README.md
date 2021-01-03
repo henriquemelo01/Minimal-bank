@@ -1,5 +1,5 @@
 <h1 align = "center" > <b>Minimal Bank 🤑</b> </h1>
-<br><br>
+<br>
 
 <h2>📄<u><b>Descrição:</b></u></h2>
 <br>
