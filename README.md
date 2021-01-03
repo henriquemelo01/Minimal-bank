@@ -1,5 +1,10 @@
 <h1 align = "center" > <b>Minimal Bank 🤑</b> </h1>
 
+<div>
+    <h2>📄<b>Overview</b></h2><br>
+    <img src = "minimal-bank.gif" align = "center">
+</div>
+<br>
 <h2>📄<u><b>Descrição:</b></u></h2>
 <br>
 <div style="font-size:16px">
