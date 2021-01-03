@@ -79,6 +79,12 @@ let date = new Date();
 let today = date.toLocaleDateString();
 let time = date.toLocaleTimeString();
 
+let interval = 1000;
+const startingMinutes = 1;
+let t = startingMinutes * 60;
+
+let x = setInterval(function () {}, interval);
+
 // Calc accounts balance: Sum all array elements
 
 const calcAccountsBalance = function (arr) {
@@ -143,8 +149,31 @@ btnLogin.addEventListener('click', function () {
       labelWelcome.textContent = `Welcome to Minimal Bank, ${acc.owner}`;
       labelDate.textContent = today;
       containerApp.style.opacity = 100; // Display App
+
       // Display Timeout
-      timeout();
+      labelTimer.innerHTML = '';
+      interval = 1000;
+      t = 1 * 60;
+      clearInterval(x);
+
+      // Updating timer
+      x = setInterval(function () {
+        if (t < 0) {
+          clearInterval(x);
+          alert('Timeout');
+
+          // Hide UI:
+          labelWelcome.textContent = 'Log in to get started';
+          containerApp.style.opacity = 0;
+          bankImg.classList.remove('hidden');
+          labelTimer.innerHTML = 0 + 'm ' + 0 + 's ';
+        }
+        let minutes = Math.floor(t / 60);
+        let seconds = t % 60;
+        seconds = seconds < startingMinutes ? '0' + seconds : seconds;
+        labelTimer.innerHTML = `${minutes}m ${seconds}s`;
+        t--;
+      }, interval);
 
       // Using calc balance function + display balance
 
@@ -348,43 +377,6 @@ btnClose.addEventListener('click', function () {
     bankImg.classList.remove('hidden');
   }
 });
-
-function timeout() {
-  const timeLogout = 2; // minutes
-  const now = date;
-  now.setMinutes(now.getMinutes() + timeLogout);
-
-  // Set the date we're counting down to
-  let countDownDate = new Date(now).getTime();
-
-  // Update the count down every 1 second
-  let x = setInterval(function () {
-    // Get today's date and time
-    let now = new Date().getTime();
-
-    // Find the distance between now and the count down date
-    let distance = countDownDate - now;
-
-    // Time calculations for days, hours, minutes and seconds
-    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    // Display the result in the element
-    labelTimer.innerHTML = minutes + 'm ' + seconds + 's ';
-
-    // If the count down is finished, display an alert
-
-    if (distance < 0) {
-      clearInterval(x);
-      alert('Timeout');
-
-      // Hide UI:
-      labelWelcome.textContent = 'Log in to get started';
-      containerApp.style.opacity = 0;
-      bankImg.classList.remove('hidden');
-    }
-  }, 1000);
-}
 
 // Sort:
 
