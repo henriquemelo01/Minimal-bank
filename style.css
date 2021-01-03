@@ -295,3 +295,21 @@ h2 {
 .timer {
   font-weight: 600;
 }
+
+.bank {
+  position: relative;
+  max-width: 150rem;
+  margin: 4rem auto;
+  display: grid;
+  grid-template-columns: 4fr 3fr;
+  grid-template-rows: auto repeat(3, 15rem) auto;
+  gap: 2rem;
+
+  /* NOTE This creates the fade in/out anumation */
+  /* hidden  appClass*/
+  transition: all 1s;
+}
+
+.hidden {
+  display: none;
+}

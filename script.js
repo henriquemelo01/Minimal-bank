@@ -260,12 +260,12 @@ function transferMoney() {
     const transferAcc = transfer.movements;
     transferAcc.push(transferAmount);
   } else if (currentAcc.username === transferTo) {
-    alert('Operação invalida ');
+    alert('Operation invalid ');
   } else if (calcAccountsBalance(currentAcc.movements) < transferAmount) {
-    alert('Não foi possivel completar a transferência: Saldo insuficiente');
+    alert("Couldn't complete the transfer: Insufficient funds");
   } else if (!hasAccount) {
     alert(
-      'Não foi possivel completar a transferência: Conta não cadastrada no sistema'
+      "Couldn't complete the transfer: Account not registered in the system"
     );
   }
 }

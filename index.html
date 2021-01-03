@@ -12,7 +12,7 @@
     />
 
     <link rel="stylesheet" href="style.css" />
-    <title>Bankist</title>
+    <title>Minimal Bank</title>
   </head>
   <body>
     <!-- TOP NAVIGATION -->
@@ -36,6 +36,8 @@
       </form>
     </nav>
 
+    <img class="bank" src="img-bank.jpg" alt="bank" />
+
     <main class="app">
       <!-- BALANCE -->
       <div class="balance">
@@ -50,6 +52,7 @@
 
       <!-- MOVEMENTS -->
       <div class="movements">
+        <!--
         <div class="movements__row">
           <div class="movements__type movements__type--deposit">2 deposit</div>
           <div class="movements__date">3 days ago</div>
@@ -62,6 +65,7 @@
           <div class="movements__date">24/01/2037</div>
           <div class="movements__value">-378€</div>
         </div>
+        -->
       </div>
 
       <!-- SUMMARY -->
@@ -81,7 +85,9 @@
         <form class="form form--transfer">
           <input type="text" class="form__input form__input--to" />
           <input type="number" class="form__input form__input--amount" />
-          <button class="form__btn form__btn--transfer">&rarr;</button>
+          <button type="button" class="form__btn form__btn--transfer">
+            &rarr;
+          </button>
           <label class="form__label">Transfer to</label>
           <label class="form__label">Amount</label>
         </form>
@@ -92,7 +98,9 @@
         <h2>Request loan</h2>
         <form class="form form--loan">
           <input type="number" class="form__input form__input--loan-amount" />
-          <button class="form__btn form__btn--loan">&rarr;</button>
+          <button type="button" class="form__btn form__btn--loan">
+            &rarr;
+          </button>
           <label class="form__label form__label--loan">Amount</label>
         </form>
       </div>
@@ -107,7 +115,9 @@
             maxlength="6"
             class="form__input form__input--pin"
           />
-          <button class="form__btn form__btn--close">&rarr;</button>
+          <button type="button" class="form__btn form__btn--close">
+            &rarr;
+          </button>
           <label class="form__label">Confirm user</label>
           <label class="form__label">Confirm PIN</label>
         </form>
@@ -115,7 +125,7 @@
 
       <!-- LOGOUT TIMER -->
       <p class="logout-timer">
-        You will be logged out in <span class="timer">05:00</span>
+        You will be logged out in <span class="timer"><!--05:00--></span>
       </p>
     </main>
 
